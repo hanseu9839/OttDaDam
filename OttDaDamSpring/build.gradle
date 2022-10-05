@@ -1,0 +1,29 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.4'
+	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
+	id 'java'
+	id 'com.epages.restdocs-api-spec' version '0.16.2'
+}
+
+group = 'com.puffy'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation "org.springframework.restdocs:spring-restdocs-restassured:0.16.2"
+	testImplementation 'io.rest-assured:rest-assured'
+}
+openapi3 {
+	servers = [ { url = "http://localhost:8080" } ]
+	title = 'OttDaDam-swagger API Documentation Page'
+	version = '1.0.1'
+	format = 'yaml'
+}
+tasks.named('test') {
+	useJUnitPlatform()
+}
