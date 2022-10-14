@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-OttDaDamSpringApplication<OttDaDamSpring>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.puffy.OttDaDamSpring.OttDaDamSpringApplication",
+      "projectName": "OttDaDamSpring",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
