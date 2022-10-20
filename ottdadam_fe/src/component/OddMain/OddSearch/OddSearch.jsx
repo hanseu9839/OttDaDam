@@ -37,9 +37,8 @@ function OddSearch(props) {
           <div className={styles.search}>
             <Form.Select size="sm" className={styles.select}>
               <option selected disabled>
-                시
+                서울시
               </option>
-              <option>서울시</option>
             </Form.Select>
             <Form.Select
               size="sm"
@@ -52,11 +51,11 @@ function OddSearch(props) {
               <option>구로구</option>
               <option>양천구</option>
             </Form.Select>
-            <Form.Select
-              size="sm"
-              className={styles.select}
-              id="dong"
-            ></Form.Select>
+            <Form.Select size="sm" className={styles.select} id="dong">
+              <option selected disabled>
+                동
+              </option>
+            </Form.Select>
 
             <Button className={styles.button} variant="outline-success">
               검색
