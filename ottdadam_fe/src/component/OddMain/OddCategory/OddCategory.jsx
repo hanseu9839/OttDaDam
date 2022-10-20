@@ -3,15 +3,37 @@ import styles from "./OddCategory.module.css";
 import { useState } from "react";
 
 function OddCategory() {
-  const [displays, setdisplay] = useState("none");
-  const displayType = displays === "none" ? styles.none : styles.block;
+  const [citymenus, setcitymenus] = useState(["구로구", "양천구"]);
+  const [dongmenus, setdongmenus] = useState({
+    guro: {
+      name: "구로구",
+      dong: ["오류동", "개봉동"],
+    },
+    yangcheon: {
+      name: "양천구",
+      dong: ["목동", "신정동"],
+    },
+  });
   const handleGuClick = (e) => {
-    const guro = e.target.childNodes[0].data;
-    console.log(guro);
-    if (displays === "none") {
-      setdisplay("block");
-    } else {
-      setdisplay("none");
+    const gurogu = document.getElementsByClassName("gurogu");
+    const yangcheongu = document.getElementsByClassName("yangcheongu");
+    const val = e.target.childNodes[0].data;
+
+    switch (val) {
+      case dongmenus.guro.name:
+        Array.from(gurogu).map((value) =>
+          value.style.display == "none"
+            ? (value.style.display = "block")
+            : (value.style.display = "none")
+        );
+        break;
+      case dongmenus.yangcheon.name:
+        Array.from(yangcheongu).map((value) =>
+          value.style.display == "none"
+            ? (value.style.display = "block")
+            : (value.style.display = "none")
+        );
+        break;
     }
   };
 
@@ -20,20 +42,23 @@ function OddCategory() {
       <ul className={styles.mainseoul}>
         서울시
         <li className={styles.sub_gu}>
-          <ul onClick={handleGuClick}>
-            구로구
-            <li className={`${styles.sub_dong} ${displayType}`}>
-              <ul>오류동</ul>
-              <ul>개봉동</ul>
-            </li>
-          </ul>
-          <ul onClick={handleGuClick}>
-            양천구
-            <li className={`${styles.sub_dong} ${displayType}`}>
-              <ul>목동</ul>
-              <ul>신정동</ul>
-            </li>
-          </ul>
+          {citymenus.map((value) => (
+            <>
+              <ul onClick={handleGuClick}>
+                {value}
+                <ul>
+                  {value == dongmenus.guro.name &&
+                    dongmenus.guro.dong.map((value) => (
+                      <ul className="gurogu">{value}</ul>
+                    ))}
+                  {value == dongmenus.yangcheon.name &&
+                    dongmenus.yangcheon.dong.map((value) => (
+                      <ul className="yangcheongu">{value}</ul>
+                    ))}
+                </ul>
+              </ul>
+            </>
+          ))}
         </li>
       </ul>
     </div>
