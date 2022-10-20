@@ -1,20 +1,20 @@
 import React from "react";
 import styles from "./OddCategory.module.css";
+import { ListGroup } from "react-bootstrap";
 function OddCategory(props) {
   return (
     <div className={styles.category}>
-      <div>
-        <a href="#">카테고리1</a>
-      </div>
-      <div>
-        <a href="#">카테고리2</a>
-      </div>
-      <div>
-        <a href="#">카테고리3</a>
-      </div>
-      <div>
-        <a href="#">카테고리4</a>
-      </div>
+      <ListGroup as="ul">
+        <ListGroup.Item
+          as="ul"
+          action
+          href="#seoul"
+          data-bs-toggle="collapse"
+          aria-controls="collapseExample"
+        >
+          서울시
+        </ListGroup.Item>
+      </ListGroup>
     </div>
   );
 }

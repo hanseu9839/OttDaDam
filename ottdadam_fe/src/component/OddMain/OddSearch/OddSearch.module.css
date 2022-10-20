@@ -3,7 +3,10 @@
     padding-top: 15px;
     padding-bottom: 5px;
 }
-
+.oddsearch {
+    border-bottom: solid 1.5px;
+    border-color: rgb(201, 201, 201);
+}
 .searchform {
     width: 100%;
     height: 100%;
