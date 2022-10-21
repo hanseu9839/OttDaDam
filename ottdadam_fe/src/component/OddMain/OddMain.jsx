@@ -11,7 +11,7 @@ function OddMain(props) {
       <OddHeader />
       <OddSearch />
       <section className={styles.main}>
-        <OddCategory />
+        <OddCategory display="none" />
         <OddContent />
       </section>
     </>

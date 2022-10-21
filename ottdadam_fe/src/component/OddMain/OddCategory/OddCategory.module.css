@@ -2,3 +2,12 @@
     width: 35vh;
     height: 100vh;
 }
+/* .sub_gurodong {
+} */
+
+.sub_dong.none {
+    display:none
+}
+.sub_dong.block {
+    display:block
+}
