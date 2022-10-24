@@ -1,6 +1,12 @@
 import React from "react";
 import styles from "./OddSearch.module.css";
 import { Button, Form } from "react-bootstrap";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 
 function OddSearch(props) {
   const handleChangeDong = (e) => {

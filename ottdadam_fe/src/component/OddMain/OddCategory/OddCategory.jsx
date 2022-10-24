@@ -3,8 +3,8 @@ import styles from "./OddCategory.module.css";
 import { useState } from "react";
 
 function OddCategory() {
-  const [citymenus, setcitymenus] = useState(["구로구", "양천구"]);
-  const [dongmenus, setdongmenus] = useState({
+  const [citymenus] = useState(["구로구", "양천구"]);
+  const [dongmenus] = useState({
     guro: {
       name: "구로구",
       dong: ["오류동", "개봉동"],
@@ -14,11 +14,11 @@ function OddCategory() {
       dong: ["목동", "신정동"],
     },
   });
-  const handleGuClick = (e) => {
-    const gurogu = document.getElementsByClassName("gurogu");
-    const yangcheongu = document.getElementsByClassName("yangcheongu");
-    const val = e.target.childNodes[0].data;
+  const gurogu = document.getElementsByClassName("gurogu");
+  const yangcheongu = document.getElementsByClassName("yangcheongu");
 
+  const handleGuClick = (e) => {
+    const val = e.target.childNodes[0].data;
     switch (val) {
       case dongmenus.guro.name:
         Array.from(gurogu).map((value) =>
@@ -49,11 +49,11 @@ function OddCategory() {
                 <ul>
                   {value == dongmenus.guro.name &&
                     dongmenus.guro.dong.map((value) => (
-                      <ul className="gurogu">{value}</ul>
+                      <ul className={"gurogu"}>{value}</ul>
                     ))}
                   {value == dongmenus.yangcheon.name &&
                     dongmenus.yangcheon.dong.map((value) => (
-                      <ul className="yangcheongu">{value}</ul>
+                      <ul className={"yangcheongu"}>{value}</ul>
                     ))}
                 </ul>
               </ul>
