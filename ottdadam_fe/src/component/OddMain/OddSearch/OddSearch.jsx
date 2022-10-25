@@ -1,28 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./OddSearch.module.css";
 import { Button, Form } from "react-bootstrap";
-import {
-  Link,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 function OddSearch(props) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [guParams, setGuParams] = useState();
+  const [dongParams, setDongParams] = useState();
+  let suboption = {
+    guro: ["개봉동", "오류동"],
+    yangcheon: ["목동", "신정동"],
+  };
+
+  const addQuery = (e) => {
+    let currentQuery = e.target.dataset.query;
+    currentQuery = currentQuery.split(",");
+
+    // const prevQuery = searchParams.getAll("filter");
+
+    setSearchParams({
+      gu: currentQuery[0],
+      dong: currentQuery[1],
+    });
+  };
+
   const handleChangeDong = (e) => {
     const mainoption = e.target.value;
     const subcity = document.getElementById("dong");
-    let suboption = {
-      guro: ["개봉동", "오류동"],
-      yangcheon: ["목동", "신정동"],
-    };
     console.log(`suboption ${suboption}`);
+    console.log(mainoption);
     switch (mainoption) {
-      case "구로구":
+      case "gurogu":
         suboption = suboption.guro;
+        setGuParams(mainoption);
         break;
-      case "양천구":
+      case "yangcheongu":
         suboption = suboption.yangcheon;
+        setGuParams(mainoption);
         break;
     }
     subcity.options.length = 0;
@@ -32,6 +46,20 @@ function OddSearch(props) {
       subcity.append(option);
     }
   };
+
+  const handleDongQuery = (e) => {
+    const mainoption = e.target.value;
+    console.log(mainoption);
+    switch (mainoption) {
+      case "오류동":
+        setDongParams("orudong");
+        break;
+      case "개봉동":
+        setDongParams("gaebongdong");
+        break;
+    }
+  };
+
   return (
     <>
       <div className={styles.oddsearch}>
@@ -51,19 +79,26 @@ function OddSearch(props) {
               className={styles.select}
               onChange={handleChangeDong}
             >
-              <option selected disabled>
-                구/군
-              </option>
-              <option>구로구</option>
-              <option>양천구</option>
+              <option value="gurogu">구로구</option>
+              <option value="yangcheongu">양천구</option>
             </Form.Select>
-            <Form.Select size="sm" className={styles.select} id="dong">
+            <Form.Select
+              size="sm"
+              className={styles.select}
+              id="dong"
+              onChange={handleDongQuery}
+            >
               <option selected disabled>
                 동
               </option>
             </Form.Select>
 
-            <Button className={styles.button} variant="outline-success">
+            <Button
+              className={styles.button}
+              variant="outline-success"
+              data-query={[guParams, dongParams]}
+              onClick={addQuery}
+            >
               검색
             </Button>
           </div>
