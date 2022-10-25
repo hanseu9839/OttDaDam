@@ -17,9 +17,6 @@ public class OpenApiController {
 
     @GetMapping("open-api")
     public ResponseEntity<?> fetch() throws UnsupportedEncodingException, URISyntaxException {
-        for(){
-
-        }
         return (ResponseEntity<?>) openApiManager.fetch().getBody();
     }
 }
