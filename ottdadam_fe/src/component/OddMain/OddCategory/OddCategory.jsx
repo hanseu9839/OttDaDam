@@ -1,20 +1,66 @@
 import React from "react";
 import styles from "./OddCategory.module.css";
-import { ListGroup } from "react-bootstrap";
-function OddCategory(props) {
+import { useState } from "react";
+
+function OddCategory() {
+  const [citymenus, setcitymenus] = useState(["구로구", "양천구"]);
+  const [dongmenus, setdongmenus] = useState({
+    guro: {
+      name: "구로구",
+      dong: ["오류동", "개봉동"],
+    },
+    yangcheon: {
+      name: "양천구",
+      dong: ["목동", "신정동"],
+    },
+  });
+  const handleGuClick = (e) => {
+    const gurogu = document.getElementsByClassName("gurogu");
+    const yangcheongu = document.getElementsByClassName("yangcheongu");
+    const val = e.target.childNodes[0].data;
+
+    switch (val) {
+      case dongmenus.guro.name:
+        Array.from(gurogu).map((value) =>
+          value.style.display == "none"
+            ? (value.style.display = "block")
+            : (value.style.display = "none")
+        );
+        break;
+      case dongmenus.yangcheon.name:
+        Array.from(yangcheongu).map((value) =>
+          value.style.display == "none"
+            ? (value.style.display = "block")
+            : (value.style.display = "none")
+        );
+        break;
+    }
+  };
+
   return (
     <div className={styles.category}>
-      <ListGroup as="ul">
-        <ListGroup.Item
-          as="ul"
-          action
-          href="#seoul"
-          data-bs-toggle="collapse"
-          aria-controls="collapseExample"
-        >
-          서울시
-        </ListGroup.Item>
-      </ListGroup>
+      <ul className={styles.mainseoul}>
+        서울시
+        <li className={styles.sub_gu}>
+          {citymenus.map((value) => (
+            <>
+              <ul onClick={handleGuClick}>
+                {value}
+                <ul>
+                  {value == dongmenus.guro.name &&
+                    dongmenus.guro.dong.map((value) => (
+                      <ul className="gurogu">{value}</ul>
+                    ))}
+                  {value == dongmenus.yangcheon.name &&
+                    dongmenus.yangcheon.dong.map((value) => (
+                      <ul className="yangcheongu">{value}</ul>
+                    ))}
+                </ul>
+              </ul>
+            </>
+          ))}
+        </li>
+      </ul>
     </div>
   );
 }
