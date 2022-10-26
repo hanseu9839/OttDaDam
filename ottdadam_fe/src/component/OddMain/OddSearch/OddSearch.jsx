@@ -1,31 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./OddSearch.module.css";
 import { Button, Form } from "react-bootstrap";
+import { useSearchParams } from "react-router-dom";
 
 function OddSearch(props) {
-  const handleChangeDong = (e) => {
-    const mainoption = e.target.value;
-    const subcity = document.getElementById("dong");
-    let suboption = {
-      guro: ["개봉동", "오류동"],
-      yangcheon: ["목동", "신정동"],
-    };
-    console.log(`suboption ${suboption}`);
-    switch (mainoption) {
-      case "구로구":
-        suboption = suboption.guro;
-        break;
-      case "양천구":
-        suboption = suboption.yangcheon;
-        break;
-    }
-    subcity.options.length = 0;
-    for (let i = 0; i < suboption.length; i++) {
-      const option = document.createElement("option");
-      option.innerText = suboption[i];
-      subcity.append(option);
-    }
+  const contry = ["구로구", "양천구"];
+  const neighborhood = {
+    guro: ["개봉동", "오류동"],
+    yangcheon: ["목동", "신정동"],
+    defalutvalue: ["동"],
   };
+  const [neighborhoodState, setneighborhoodState] = useState();
+  const [contryState, setContryState] = useState();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const countyvalue = contry.map((value) => <option>{value}</option>);
+  const handleContry = (e) => {
+    const contryvalue = e.target.value;
+    setContryState(contryvalue);
+  };
+  const handleNeighborHood = (e) => {
+    const neighborhoodvalue = e.target.value;
+    setneighborhoodState(neighborhoodvalue);
+  };
+
+  const addQuery = (e) => {
+    let currentQuery = e.target.dataset.query;
+    currentQuery = currentQuery.split(",");
+
+    setSearchParams({
+      gu: currentQuery[0],
+      dong: currentQuery[1],
+    });
+  };
+
   return (
     <>
       <div className={styles.oddsearch}>
@@ -43,22 +51,37 @@ function OddSearch(props) {
             <Form.Select
               size="sm"
               className={styles.select}
-              onChange={handleChangeDong}
+              onChange={handleContry}
             >
               <option selected disabled>
-                구/군
+                구
               </option>
-              <option>구로구</option>
-              <option>양천구</option>
+              {countyvalue}
             </Form.Select>
-            <Form.Select size="sm" className={styles.select} id="dong">
-              <option selected disabled>
-                동
-              </option>
+            <Form.Select
+              size="sm"
+              className={styles.select}
+              onChange={handleNeighborHood}
+            >
+              {contryState === "구로구" ? (
+                neighborhood.guro.map((guro) => <option>{guro}</option>)
+              ) : contryState === "양천구" ? (
+                neighborhood.yangcheon.map((yangcheon) => (
+                  <option>{yangcheon}</option>
+                ))
+              ) : (
+                <option selected disabled>
+                  {neighborhood.defalutvalue}
+                </option>
+              )}
             </Form.Select>
-
-            <Button className={styles.button} variant="outline-success">
-              검색
+            <Button
+              className={styles.button}
+              variant="outline-success"
+              data-query={[contryState, neighborhoodState]}
+              onClick={addQuery}
+            >
+              검색..
             </Button>
           </div>
         </form>
