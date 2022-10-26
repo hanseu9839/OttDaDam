@@ -81,7 +81,7 @@ function OddSearch(props) {
               data-query={[contryState, neighborhoodState]}
               onClick={addQuery}
             >
-              검색.
+              검색..
             </Button>
           </div>
         </form>
