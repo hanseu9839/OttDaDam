@@ -1,22 +1,28 @@
 package com.puffy.OttDaDamSpring.controller;
 
 import com.puffy.OttDaDamSpring.domain.OpenApiManager;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
+import lombok.AllArgsConstructor;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
+import java.io.Reader;
 import java.net.URISyntaxException;
 
 @RestController
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class OpenApiController {
     private OpenApiManager openApiManager;
 
-    @GetMapping("open-api")
-    public ResponseEntity<?> fetch() throws UnsupportedEncodingException, URISyntaxException {
-        return (ResponseEntity<?>) openApiManager.fetch().getBody();
+    @GetMapping(value = "open-api")
+    public JSONObject fetch() throws IOException, URISyntaxException, ParseException {
+        JSONParser parser = new JSONParser();
+        JSONObject object = (JSONObject) parser.parse(String.valueOf((JSONObject) openApiManager.fetch().getBody()));
+        
+
+        return object;
     }
 }
