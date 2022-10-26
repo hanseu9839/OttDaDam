@@ -7,17 +7,18 @@ function OddSearch(props) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [guParams, setGuParams] = useState();
   const [dongParams, setDongParams] = useState();
-  let suboption = {
-    guro: ["개봉동", "오류동"],
-    yangcheon: ["목동", "신정동"],
+  const Citys = {
+    city: "서울시",
+    contry: ["구로구", "양천구"],
+    neighborhood: {
+      guro: ["개봉동", "오류동"],
+      yangcheon: ["목동", "신정동"],
+    },
   };
-
+  const countyvalue = Citys.contry.map((value) => <option>{value}</option>);
   const addQuery = (e) => {
     let currentQuery = e.target.dataset.query;
     currentQuery = currentQuery.split(",");
-
-    // const prevQuery = searchParams.getAll("filter");
-
     setSearchParams({
       gu: currentQuery[0],
       dong: currentQuery[1],
@@ -25,24 +26,24 @@ function OddSearch(props) {
   };
 
   const handleChangeDong = (e) => {
-    const mainoption = e.target.value;
+    const contry = e.target.value;
     const subcity = document.getElementById("dong");
-    console.log(`suboption ${suboption}`);
-    console.log(mainoption);
-    switch (mainoption) {
-      case "gurogu":
-        suboption = suboption.guro;
-        setGuParams(mainoption);
+    console.log(`neighborhood ${Citys.neighborhood}`);
+    console.log(contry);
+    switch (contry) {
+      case "구로구":
+        Citys.neighborhood = Citys.neighborhood.guro;
+        setGuParams("gurogu");
         break;
-      case "yangcheongu":
-        suboption = suboption.yangcheon;
-        setGuParams(mainoption);
+      case "양천구":
+        Citys.neighborhood = Citys.neighborhood.yangcheon;
+        setGuParams("yangcheongu");
         break;
     }
     subcity.options.length = 0;
-    for (let i = 0; i < suboption.length; i++) {
+    for (let i = 0; i < Citys.neighborhood.length; i++) {
       const option = document.createElement("option");
-      option.innerText = suboption[i];
+      option.innerText = Citys.neighborhood[i];
       subcity.append(option);
     }
   };
@@ -71,7 +72,7 @@ function OddSearch(props) {
           <div className={styles.search}>
             <Form.Select size="sm" className={styles.select}>
               <option selected disabled>
-                서울시
+                {Citys.city}
               </option>
             </Form.Select>
             <Form.Select
@@ -79,8 +80,7 @@ function OddSearch(props) {
               className={styles.select}
               onChange={handleChangeDong}
             >
-              <option value="gurogu">구로구</option>
-              <option value="yangcheongu">양천구</option>
+              {countyvalue}
             </Form.Select>
             <Form.Select
               size="sm"
