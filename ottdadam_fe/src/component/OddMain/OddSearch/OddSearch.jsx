@@ -1,37 +1,34 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./OddSearch.module.css";
 import { Button, Form } from "react-bootstrap";
-import { useSearchParams } from "react-router-dom";
 
-function OddSearch(props) {
-  const contry = ["구로구", "양천구"];
+function OddSearch({
+  OnHandleContry,
+  OnContryValue,
+  OnHandleNeighborHood,
+  OnContryState,
+  OnNeighborhoodState,
+  OnAddQuery,
+}) {
   const neighborhood = {
     guro: ["개봉동", "오류동"],
     yangcheon: ["목동", "신정동"],
     defalutvalue: ["동"],
   };
-  const [neighborhoodState, setneighborhoodState] = useState();
-  const [contryState, setContryState] = useState();
-  const [searchParams, setSearchParams] = useSearchParams();
 
-  const countyvalue = contry.map((value) => <option>{value}</option>);
   const handleContry = (e) => {
     const contryvalue = e.target.value;
-    setContryState(contryvalue);
+    OnHandleContry(contryvalue);
   };
+
   const handleNeighborHood = (e) => {
     const neighborhoodvalue = e.target.value;
-    setneighborhoodState(neighborhoodvalue);
+    OnHandleNeighborHood(neighborhoodvalue);
   };
 
   const addQuery = (e) => {
-    let currentQuery = e.target.dataset.query;
-    currentQuery = currentQuery.split(",");
-
-    setSearchParams({
-      gu: currentQuery[0],
-      dong: currentQuery[1],
-    });
+    const currentQuery = e.target.dataset.query;
+    OnAddQuery(currentQuery);
   };
 
   return (
@@ -56,16 +53,16 @@ function OddSearch(props) {
               <option selected disabled>
                 구
               </option>
-              {countyvalue}
+              {OnContryValue}
             </Form.Select>
             <Form.Select
               size="sm"
               className={styles.select}
               onChange={handleNeighborHood}
             >
-              {contryState === "구로구" ? (
+              {OnContryState === "구로구" ? (
                 neighborhood.guro.map((guro) => <option>{guro}</option>)
-              ) : contryState === "양천구" ? (
+              ) : OnContryState === "양천구" ? (
                 neighborhood.yangcheon.map((yangcheon) => (
                   <option>{yangcheon}</option>
                 ))
@@ -78,7 +75,7 @@ function OddSearch(props) {
             <Button
               className={styles.button}
               variant="outline-success"
-              data-query={[contryState, neighborhoodState]}
+              data-query={[OnContryState, OnNeighborhoodState]}
               onClick={addQuery}
             >
               검색
