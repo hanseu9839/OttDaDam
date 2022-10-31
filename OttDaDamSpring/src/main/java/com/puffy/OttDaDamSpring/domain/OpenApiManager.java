@@ -12,24 +12,32 @@ import java.io.UnsupportedEncodingException;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLDecoder;
+
 import java.util.Map;
 
 @Component
 public class OpenApiManager {
     private final String BASE_URL = "https://api.odcloud.kr";
-    private final String apiUri = "/api/15068871/v1/uddi:672059d4-1830-44af-97dd-cf0954b2ee86?";
-    private final String page = "page=1";
-    private final String perPage = "&perPage=10";
+    private String apiID = "15068871";
+    private String uddi =  "672059d4-1830-44af-97dd-cf0954b2ee86";
+    private final String page = "page=1&";
+    private String perPage = "10";
     private final String serviceKey = "&serviceKey=Z%2BQodRDulSnhc%2FQPPMSjFBJmRBoB2lmzYIoADFND8d%2Fv7M%2BrFCLklDNG2HS7BZjwCGdMARLWssYcIL5pzX%2FgSw%3D%3D";
 
+    public OpenApiManager(String apiID, String uddi, String perPage) {
+        this.apiID = apiID;
+        this.uddi = uddi;
+        this.perPage = perPage;
+    }
+    public OpenApiManager(){
 
+    };
 
     private String makeUrl() throws UnsupportedEncodingException {
         return BASE_URL +
-                apiUri +
-                page +
-                perPage +
+                "/api/" + apiID +
+                "/v1/uddi:" +uddi+"?"+ page +
+                "perPage=" + perPage +
                 serviceKey ;
     }
 
