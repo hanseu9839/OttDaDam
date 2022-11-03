@@ -13,24 +13,39 @@ import java.io.IOException;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.stream.IntStream;
 
 @RestController
 @AllArgsConstructor
 public class OpenApiController {
-    private OpenApiManager openApiManager;
+    private static OpenApiManager openApiManager;
 
 
     @GetMapping(value = "open-api")
-    public JSONObject fetch() throws IOException, URISyntaxException, ParseException {
+    public ArrayList<String> guroFetch() throws IOException, URISyntaxException, ParseException {
         JSONParser parser = new JSONParser();
         openApiManager = new OpenApiManager();
         int totalCount= apiTotalCount(openApiManager,parser);
-        openApiManager = new OpenApiManager("15068871","672059d4-1830-44af-97dd-cf0954b2ee86",Integer.toString(totalCount));
-        System.out.println(openApiManager);
-        JSONObject object = (JSONObject) parser.parse(String.valueOf((JSONObject)openApiManager.fetch().getBody()));
-        return object;
+        JSONObject objects =getAllApiData("15068871","672059d4-1830-44af-97dd-cf0954b2ee86",Integer.toString(totalCount));
+        JSONArray guroObject = (JSONArray) objects.get("data");
+        ArrayList<String> guroPositions = new ArrayList<>();
+        for(int i = 0; i < guroObject.size();i++){
+            JSONObject oneObject = (JSONObject)guroObject.get(i);
+            String position = (String) oneObject.get("위치");
+            guroPositions.add(position);
+        }
+
+        return guroPositions;
     }
 
+    static JSONObject getAllApiData(String apiID,String uddi, String totalCounts) throws UnsupportedEncodingException, URISyntaxException, ParseException {
+        JSONParser parser = new JSONParser();
+        openApiManager = new OpenApiManager(apiID,uddi,totalCounts);
+        System.out.println(openApiManager);
+        JSONObject obj =(JSONObject) parser.parse(String.valueOf((JSONObject)openApiManager.fetch().getBody()));
+        return obj;
+    }
     static int apiTotalCount(OpenApiManager openApiManager,JSONParser parser) throws UnsupportedEncodingException, URISyntaxException, ParseException {
         JSONObject brObject = (JSONObject) parser.parse(String.valueOf((JSONObject) openApiManager.fetch().getBody()));
         int totalCount = Integer.parseInt(brObject.get("totalCount").toString());
