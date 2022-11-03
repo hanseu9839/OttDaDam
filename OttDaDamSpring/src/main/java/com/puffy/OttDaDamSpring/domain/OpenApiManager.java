@@ -49,6 +49,5 @@ public class OpenApiManager {
         ResponseEntity<?> resultMap = restTemplate.exchange(uri, HttpMethod.GET, entity, JSONObject.class);
         System.out.println(resultMap.getBody());
         return resultMap;
-
     }
 }
